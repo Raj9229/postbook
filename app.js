@@ -44,7 +44,6 @@ app.get("/login", (req,res)=>{
     res.render("login");
 });
 
-
 app.post("/login", async (req,res)=>{
     const { email, password } = req.body;
 //check if the user exists in the database
@@ -61,6 +60,10 @@ app.post("/login", async (req,res)=>{
 
 });
 
+//logout
+app.get("/logout", (req,res)=>{
+    res.cookie("token", ""); 
+});
 
 
 
