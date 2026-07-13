@@ -39,6 +39,27 @@ const newUser = await userModel.create({
     res.send("registered successfully");
 });
 
+//login
+app.get("/login", (req,res)=>{
+    res.render("login");
+});
+
+
+app.post("/login", async (req,res)=>{
+    const { email, password } = req.body;
+//check if the user exists in the database
+    let user = await userModel.findOne({email});
+    if (!user) return res.status(400).send("something went wrong");
+//compare the password provided by the user with the hashed password stored in the database
+    bcrypt.compare(password, user.password ,(err, result)=>{
+        if (result) {
+            const token = jwt.sign({ email: user.email, userid: user._id }, "secretkeyyy");
+            res.cookie("token", token);
+            res.status(200).send("login successfully");}
+        else return res.status(400).send("something went wrong");
+    });
+
+});
 
 
 
