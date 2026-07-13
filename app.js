@@ -7,6 +7,8 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 
 
@@ -63,8 +65,24 @@ app.post("/login", async (req,res)=>{
 //logout
 app.get("/logout", (req,res)=>{
     res.cookie("token", ""); 
+    res.redirect("/login");
 });
+//profile
+app.get("/profile", isloggedIn, (req,res)=>{
+    console.log(req.user);
+    res.send("profile page");
+})
 
+function isloggedIn(req, res, next) {
+    const token = req.cookies.token;
+    if (token == "") {res.redirect("/login");}
+    else { 
+        let data = jwt.verify(token, "secretkeyyy");
+        req.user = data;
+        next();
+    }
+
+}
 
 
 
