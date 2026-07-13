@@ -1,10 +1,12 @@
 const express = require('express');
 const userModel = require('./models/user');
+const postModel = require('./models/post');
 const app = express();
 app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 
@@ -12,14 +14,29 @@ app.get("/",(req,res)=>{
     res.render("index");
 });
 
-app.post("/register", async (req,res)=>{
-    const { username, name, age, email, password } = req.body;
 
+//register
+app.post("/register", async (req,res)=>{
+//taking user input from the request body
+    const { username, name, age, email, password } = req.body; 
+
+//check if the user already exists in the database
     let user = await userModel.findOne({email});
     if (user) return res.status(400).send("User already exists");
-
-    
-    res.render("index");
+//register the user by hashing the password and saving the user to the database
+const salt = await bcrypt.genSalt(10);
+const hash = await bcrypt.hash(password, salt);
+const newUser = await userModel.create({
+    username,
+    name,
+    age,
+    email,
+    password: hash
+});
+//creating a JWT token for the user and sending it as a cookie in the response
+    const token = jwt.sign({ email: newUser.email, userid: newUser._id },"secretkeyyy");
+    res.cookie("token", token);    
+    res.send("registered successfully");
 });
 
 
