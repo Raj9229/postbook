@@ -98,6 +98,18 @@ app.get("/like/:id", isloggedIn, async (req,res)=>{
     res.redirect("/profile");
 });
 
+//edit post
+app.get("/edit/:id", isloggedIn, async (req,res)=>{
+    let post = await postModel.findOne({_id: req.params.id});
+    res.render("edit", { post });
+});
+
+app.post("/edit/:id", isloggedIn, async (req,res)=>{
+    let post = await postModel.findOneAndUpdate({_id: req.params.id}, { content: req.body.content });
+    res.redirect("/profile");
+});
+
+
 
 
 //middleware
