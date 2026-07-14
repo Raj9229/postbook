@@ -88,7 +88,12 @@ app.post("/post", isloggedIn, async (req,res)=>{
 //likes in post
 app.get("/like/:id", isloggedIn, async (req,res)=>{
     let post = await postModel.findOne({_id: req.params.id});
-    post.likes.push(req.user.userid);
+    if (post.likes.indexOf(req.user.userid) === -1) {
+        post.likes.push(req.user.userid);
+    }
+    else {
+        post.likes.splice(post.likes.indexOf(req.user.userid), 1);
+    }
     await post.save();
     res.redirect("/profile");
 });
