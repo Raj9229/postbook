@@ -70,7 +70,7 @@ app.get("/logout", (req,res)=>{
 //profile
 app.get("/profile", isloggedIn, async (req,res)=>{
     let user = await userModel.findOne({email: req.user.email});
-    user.populate("posts");
+    await user.populate("posts");
     res.render("profile", { user });
 });
 
