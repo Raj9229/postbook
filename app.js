@@ -70,9 +70,24 @@ app.get("/logout", (req,res)=>{
 //profile
 app.get("/profile", isloggedIn, async (req,res)=>{
     let user = await userModel.findOne({email: req.user.email});
+    user.populate("posts");
     res.render("profile", { user });
 });
 
+//post
+app.post("/post", isloggedIn, async (req,res)=>{
+    let user = await userModel.findOne({email: req.user.email});
+    let {content} = req.body;
+    let post = await postModel.create({user: user._id, content});
+    user.posts.push(post._id);
+    await user.save();
+    res.redirect("/profile");
+
+});
+
+
+
+//middleware
 function isloggedIn(req, res, next) {
     const token = req.cookies.token;
     if (!token) {res.redirect("/login");}
