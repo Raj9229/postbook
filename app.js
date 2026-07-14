@@ -56,7 +56,7 @@ app.post("/login", async (req,res)=>{
         if (result) {
             const token = jwt.sign({ email: user.email, userid: user._id }, "secretkeyyy");
             res.cookie("token", token);
-            res.status(200).send("login successfully");}
+            res.status(200).redirect("/profile");}
         else return res.status(400).send("something went wrong");
     });
 
@@ -68,14 +68,14 @@ app.get("/logout", (req,res)=>{
     res.redirect("/login");
 });
 //profile
-app.get("/profile", isloggedIn, (req,res)=>{
-    console.log(req.user);
-    res.send("profile page");
-})
+app.get("/profile", isloggedIn, async (req,res)=>{
+    let user = await userModel.findOne({email: req.user.email});
+    res.render("profile", { user });
+});
 
 function isloggedIn(req, res, next) {
     const token = req.cookies.token;
-    if (token == "") {res.redirect("/login");}
+    if (!token) {res.redirect("/login");}
     else { 
         let data = jwt.verify(token, "secretkeyyy");
         req.user = data;
