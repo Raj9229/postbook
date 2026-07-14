@@ -85,6 +85,15 @@ app.post("/post", isloggedIn, async (req,res)=>{
 });
 
 
+//likes in post
+app.get("/like/:id", isloggedIn, async (req,res)=>{
+    let post = await postModel.findOne({_id: req.params.id});
+    post.likes.push(req.user.userid);
+    await post.save();
+    res.redirect("/profile");
+});
+
+
 
 //middleware
 function isloggedIn(req, res, next) {
