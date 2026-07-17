@@ -10,7 +10,9 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 const crypto = require('crypto');
+const upload = require('./config/configmulter');
 
 app.get("/",(req,res)=>{
     res.render("index");
@@ -73,6 +75,23 @@ app.get("/profile", isloggedIn, async (req,res)=>{
     let user = await userModel.findOne({email: req.user.email}).populate("posts");
     res.render("profile", { user });
 });
+
+
+//upload profile image
+app.get("/upload", isloggedIn, (req,res)=>{
+    res.render("profileupload");
+});
+
+app.post("/upload", isloggedIn, upload.single('image'), async (req,res)=>{
+    let user = await userModel.findOne({email: req.user.email});
+    user.profileImage = req.file.filename;
+    await user.save();
+    res.redirect("/profile");
+});
+
+
+
+
 
 //post
 app.post("/post", isloggedIn, async (req,res)=>{
