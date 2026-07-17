@@ -20,6 +20,12 @@ app.get("/",(req,res)=>{
     res.render("index");
 });
 
+//all post
+app.get("/allpost", async (req,res)=>{
+    let posts = await postModel.find().populate("user");
+    res.render("allpost", { posts });
+});
+
 
 
 //register
