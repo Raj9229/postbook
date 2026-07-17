@@ -14,6 +14,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 const crypto = require('crypto');
 const upload = require('./config/configmulter');
 
+
+
 app.get("/",(req,res)=>{
     res.render("index");
 });
