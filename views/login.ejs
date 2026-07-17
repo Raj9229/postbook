@@ -3,20 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>miniproject1</title>
+    <title>Postbook | Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/stylesheet/app.css">
 </head>
 <body>
 
-    <div class="w-full min-h-screen bg-zinc-900">
-        <h3 class="text-3xl font-bold text-white mb-5">Login</h3>
-        <form action="/login" method="post">
-            <input type="email" name="email" placeholder="Enter your email" class="border border-gray-300 rounded-md p-2 mb-4 bg-transparent text-white">
-            <input type="password" name="password" placeholder="Enter your password" class="border border-gray-300 rounded-md p-2 mb-4 bg-transparent text-white">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
-        </form>
-        <div class="mt-4">
-            <p class="text-white">Don't have an account? <a href="/" class="text-blue-500 hover:underline">Sign up here</a></p>
+    <div class="page-shell">
+        <div class="app-frame">
+            <div class="app-nav">
+                <div class="brand">
+                    <div class="brand-mark">P</div>
+                    <div class="brand-copy">
+                        <p class="eyebrow">Welcome back</p>
+                        <h1 class="title">Postbook</h1>
+                        <p class="subtitle">Sign in to continue your feed.</p>
+                    </div>
+                </div>
+                <div class="nav-actions">
+                    <a href="/" class="nav-link">Create account</a>
+                </div>
+            </div>
+
+            <div class="hero-grid">
+                <section class="panel panel-pad stack">
+                    <span class="section-label">Login</span>
+                    <h2 class="hero-title">Pick up where you left off.</h2>
+                    <p class="hero-copy">Use your Postbook account to get back to posting, editing, and checking your latest interactions.</p>
+
+                    <form action="/login" method="post" class="form-grid">
+                        <input type="email" name="email" placeholder="Email address" class="form-input">
+                        <input type="password" name="password" placeholder="Password" class="form-input">
+                        <button type="submit" class="primary-btn">Login</button>
+                    </form>
+
+                    <p class="muted-copy">Don't have an account? <a href="/" class="author">Sign up here</a></p>
+                </section>
+
+                <aside class="panel panel-pad panel-strong stack">
+                    <span class="section-label">Highlights</span>
+                    <div class="content-card">
+                        <div class="meta"><span class="author">Fresh UI</span><span>Secure access</span></div>
+                        <p class="body">A cleaner login screen with stronger contrast, more breathing room, and a consistent Postbook identity.</p>
+                    </div>
+                    <div class="metric-grid">
+                        <div class="metric-card"><strong>Focused</strong><span>Minimal distractions on entry.</span></div>
+                        <div class="metric-card"><strong>Readable</strong><span>Clear hierarchy and spacing.</span></div>
+                        <div class="metric-card"><strong>Unified</strong><span>Same branding across pages.</span></div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </div>
 
