@@ -134,7 +134,3 @@ The project uses server-side rendering with EJS, authentication with JWT cookies
 - Add unit and integration tests
 - Improve API response handling for registration/login success and errors
 - Add pagination for public feed and user posts
-
-## License
-
-This project is licensed under the ISC License.
